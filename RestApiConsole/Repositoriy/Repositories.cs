@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace RestApiConsole.Repository
 {
     /// <summary>
-    /// Класс для боступа ко всем данным
+    /// Класс для доступа ко всем данным
     /// </summary>
     public class Repositories
     {
