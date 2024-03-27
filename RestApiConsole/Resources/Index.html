@@ -1,0 +1,524 @@
+﻿<html>
+<head>
+    <meta charset='utf8'>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script type="text/javascript">
+    function print_r(arr, level) {
+        var print_red_text = "";
+        if(!level) level = 0;
+        var level_padding = "";
+        for(var j=0; j<level+1; j++) level_padding += "    ";
+        if(typeof(arr) == 'object') {
+            for(var item in arr) {
+                var value = arr[item];
+                if(typeof(value) == 'object') {
+                    print_red_text += level_padding + "'" + item + "' :\n";
+                    print_red_text += print_r(value,level+1);
+		    } 
+                else 
+                    print_red_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+            }
+        } 
+
+        else  print_red_text = "===>"+arr+"<===("+typeof(arr)+")";
+        return print_red_text;
+    }    
+
+        $(document).ready(function () {
+		    $("#DrillBlock_POST").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.post({
+                    url: actionurl,
+                    type: 'POST',
+                    data: $("#DrillBlock_POST").serialize(),
+                    success: function(data) {
+                         $("#DrillBlockResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+		    $("#DrillBlock_GET").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.ajax({
+                    url: actionurl,
+                    type: 'GET',
+                    success: function(data) {
+                         $("#DrillBlockResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+		    $("#DrillBlock_GET_ONE").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action + $("#DrillBlock_GET_ONE input[name=Id]").val() + "/";
+            $.ajax({
+                    url: actionurl,
+                    type: 'GET',
+                    success: function(data) {
+                        var obj = $.parseJSON(data);
+
+                        if (obj['model'][0])
+                        {
+                            $("#DrillBlock_PUT input[name=Id]").val(obj['model'][0].Id);
+                            $("#DrillBlock_PUT input[name=Name]").val(obj['model'][0].Name);
+                            $("#DrillBlock_PUT input[name=UpdateDate]").val(obj['model'][0].UpdateDate);
+                        }
+
+                         $("#DrillBlockResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+
+                return true;
+			});
+
+		    $("#DrillBlock_DELETE").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action + $("#DrillBlock_DELETE input[name=Id]").val() + "/";
+            $.ajax({
+                    url: actionurl,
+                    type: 'DELETE',
+                    success: function(data) {
+                         $("#DrillBlockResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+
+                return true;
+			});
+
+            $("#DrillBlock_PUT").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.post({
+                    url: actionurl,
+                    type: 'PUT',
+                    data: $("#DrillBlock_PUT").serialize(),
+                    success: function(data) {
+                         $("#DrillBlockResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            $("#DrillBlockPoints_POST").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.post({
+                    url: actionurl,
+                    type: 'POST',
+                    data: $("#DrillBlockPoints_POST").serialize(),
+                    success: function(data) {
+                         $("#DrillBlockPointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+		    $("#DrillBlockPoints_GET").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.ajax({
+                    url: actionurl,
+                    type: 'GET',
+                    success: function(data) {
+                         $("#DrillBlockPointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+		    $("#DrillBlockPoints_GET_ONE").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action + $("#DrillBlockPoints_GET_ONE input[name=Id]").val() + "/";
+            $.ajax({
+                    url: actionurl,
+                    type: 'GET',
+                    success: function(data) {
+                        var obj = $.parseJSON(data);
+
+                        if (obj['model'][0])
+                        {
+                            $("#DrillBlockPoints_PUT input[name=Id]").val(obj['model'][0].Id);
+                            $("#DrillBlockPoints_PUT input[name=Sequence]").val(obj['model'][0].Sequence);
+                            $("#DrillBlockPoints_PUT input[name=X]").val(obj['model'][0].X);
+                            $("#DrillBlockPoints_PUT input[name=Y]").val(obj['model'][0].Y);
+                            $("#DrillBlockPoints_PUT input[name=Z]").val(obj['model'][0].Z);
+                            $("#DrillBlockPoints_PUT input[name=DrillBlockId]").val(obj['model'][0].DrillBlockId);
+                        }
+
+                         $("#DrillBlockPointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+
+                return true;
+			});
+
+		    $("#DrillBlockPoints_DELETE").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action + $("#DrillBlockPoints_DELETE input[name=Id]").val() + "/";
+            $.ajax({
+                    url: actionurl,
+                    type: 'DELETE',
+                    success: function(data) {
+                         $("#DrillBlockPointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+
+                return true;
+			});
+
+            $("#DrillBlockPoints_PUT").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.post({
+                    url: actionurl,
+                    type: 'PUT',
+                    data: $("#DrillBlockPoints_PUT").serialize(),
+                    success: function(data) {
+                         $("#DrillBlockPointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+                 return true;
+            });
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            $("#Hole_POST").submit(function(e) {
+              e.preventDefault();
+              var actionurl = e.currentTarget.action;
+              $.post({
+                      url: actionurl,
+                      type: 'POST',
+                      data: $("#Hole_POST").serialize(),
+                      success: function(data) {
+                           $("#HoleResults").html(print_r($.parseJSON(data)))
+                      }
+	            });
+            });
+
+           $("#Hole_GET").submit(function(e) {
+              e.preventDefault();
+              var actionurl = e.currentTarget.action;
+              $.ajax({
+                      url: actionurl,
+                      type: 'GET',
+                      success: function(data) {
+                           $("#HoleResults").html(print_r($.parseJSON(data)))
+                          }
+	            });
+            });
+
+           $("#Hole_GET_ONE").submit(function(e) {
+              e.preventDefault();
+              var actionurl = e.currentTarget.action + $("#Hole_GET_ONE input[name=Id]").val() + "/";
+              $.ajax({
+                      url: actionurl,
+                      type: 'GET',
+                      success: function(data) {
+                          var obj = $.parseJSON(data);
+
+                          if (obj['model'][0])
+                          {
+                              $("#Hole_PUT input[name=Id]").val(obj['model'][0].Id);
+                              $("#Hole_PUT input[name=Name]").val(obj['model'][0].Name);
+                              $("#Hole_PUT input[name=Depth]").val(obj['model'][0].Depth);
+                              $("#Hole_PUT input[name=DrillBlockId]").val(obj['model'][0].DrillBlockId);
+                          }
+
+                           $("#HoleResults").html(print_r($.parseJSON(data)))
+                      }
+	                });
+
+                  return true;
+            });
+
+            $("#Hole_DELETE").submit(function(e) {
+                  e.preventDefault();
+                  var actionurl = e.currentTarget.action + $("#DrillBlock_DELETE input[name=Id]").val() + "/";
+                  $.ajax({
+                          url: actionurl,
+                          type: 'DELETE',
+                          success: function(data) {
+                               $("#HoleResults").html(print_r($.parseJSON(data)))
+                          }
+	            });
+
+                  return true;
+             });
+
+              $("#Hole_PUT").submit(function(e) {
+              e.preventDefault();
+              var actionurl = e.currentTarget.action;
+              $.post({
+                      url: actionurl,
+                      type: 'PUT',
+                      data: $("#Hole_PUT").serialize(),
+                      success: function(data) {
+                           $("#HoleResults").html(print_r($.parseJSON(data)))
+                      }
+	                });
+                   return true;
+              });
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            $("#HolePoints_POST").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.post({
+                    url: actionurl,
+                    type: 'POST',
+                    data: $("#HolePoints_POST").serialize(),
+                    success: function(data) {
+                         $("#HolePointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+		    $("#HolePoints_GET").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.ajax({
+                    url: actionurl,
+                    type: 'GET',
+                    success: function(data) {
+                         $("#HolePointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+			});
+
+		    $("#HolePoints_GET_ONE").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action + $("#HolePoints_GET_ONE input[name=Id]").val() + "/";
+            $.ajax({
+                    url: actionurl,
+                    type: 'GET',
+                    success: function(data) {
+                        var obj = $.parseJSON(data);
+
+                        if (obj['model'][0])
+                        {
+                            $("#HolePoints_PUT input[name=Id]").val(obj['model'][0].Id);
+                            $("#HolePoints_PUT input[name=X]").val(obj['model'][0].X);
+                            $("#HolePoints_PUT input[name=Y]").val(obj['model'][0].Y);
+                            $("#HolePoints_PUT input[name=Z]").val(obj['model'][0].Z);
+                            $("#HolePoints_PUT input[name=HoleId]").val(obj['model'][0].HoleId);
+                        }
+
+                         $("#HolePointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+
+                return true;
+			});
+
+		    $("#HolePoints_DELETE").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action + $("#HolePoints_DELETE input[name=Id]").val() + "/";
+            $.ajax({
+                    url: actionurl,
+                    type: 'DELETE',
+                    success: function(data) {
+                         $("#HolePointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+
+                return true;
+			});
+
+            $("#HolePoints_PUT").submit(function(e) {
+            e.preventDefault();
+            var actionurl = e.currentTarget.action;
+            $.post({
+                    url: actionurl,
+                    type: 'PUT',
+                    data: $("#HolePoints_PUT").serialize(),
+                    success: function(data) {
+                         $("#HolePointsResults").html(print_r($.parseJSON(data)))
+                    }
+				});
+                 return true;
+            });
+
+        });
+    </script>
+</head>
+<body>
+<img src ="DEBUG_URIdemo-rest-api.png" />
+<div>
+    <div>
+        <h4>Форма получения всех записей DrillBlock</h4>
+        <form id="DrillBlock_GET" action="API_URLDrillBlock/">
+            <input type="submit" value="Получить все значения"/>
+        </form>
+    </div>
+        <div>
+        <h4>Форма получения одной записи DrillBlock</h4>
+        <form id="DrillBlock_GET_ONE" action="API_URLDrillBlock/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Получить по ID "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма добавления DrillBlock</h4>
+        <form id="DrillBlock_POST" action="API_URLDrillBlock/">
+            <label>Имя: <input type="text" name="Name" /></label>
+            <label>Дата: <input type="datetime-local"  name="UpdateDate" /></label>
+            <input type="submit" value="Добавить значение"/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма удаления DrillBlock</h4>
+        <form id="DrillBlock_DELETE" action="API_URLDrillBlock/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Удалить значение "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма Обновления DrillBlock</h4>
+        <form id="DrillBlock_PUT" action="API_URLDrillBlock/">
+        <label>Id:<input type ="text" name = "Id"></label>
+            <label>Имя: <input type="text" name="Name" /></label>
+            <label>Дата: <input type="datetime-local"  name="UpdateDate" /></label>
+            <input type="submit" value="Обновить "/>
+        </form>
+    </div>
+    <pre id="DrillBlockResults">
+    </pre>
+</div>
+<hr>
+<div>
+    <div>
+        <h4>Форма получения всех записей DrillBlockPoints</h4>
+        <form id="DrillBlockPoints_GET" action="API_URLDrillBlockPoints/">
+            <input type="submit" value="Получить все значения"/>
+        </form>
+    </div>
+        <div>
+        <h4>Форма получения одной записи DrillBlockPoints</h4>
+        <form id="DrillBlockPoints_GET_ONE" action="API_URLDrillBlockPoints/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Получить по ID "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма добавления DrillBlockPoints</h4>
+        <form id="DrillBlockPoints_POST" action="API_URLDrillBlockPoints/">
+            <label>Sequence: <input type="text" name="Sequence" /></label>
+            <label>X: <input type="text" name="X" /></label>
+            <label>Y: <input type="text" name="Y" /></label>
+            <label>Z: <input type="text" name="Z" /></label>
+            <label>DrillBlockId: <input type="text" name="DrillBlockId" /></label>
+            <input type="submit" value="Добавить значение"/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма удаления DrillBlockPoints</h4>
+        <form id="DrillBlockPoints_DELETE" action="API_URLDrillBlockPoints/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Удалить значение "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма Обновления DrillBlockPoints</h4>
+        <form id="DrillBlockPoints_PUT" action="API_URLDrillBlockPoints/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <label>Sequence: <input type="text" name="Sequence" /></label>
+            <label>X: <input type="text" name="X" /></label>
+            <label>Y: <input type="text" name="Y" /></label>
+            <label>Z: <input type="text" name="Z" /></label>
+            <label>DrillBlockId: <input type="text" name="DrillBlockId" /></label>
+            <input type="submit" value="Обновить "/>
+        </form>
+    </div>
+    <pre id="DrillBlockPointsResults">
+    </pre>
+</div>
+<hr>
+<div>
+    <div>
+        <h4>Форма получения всех записей Hole</h4>
+        <form id="Hole_GET" action="API_URLHole/">
+            <input type="submit" value="Получить все значения"/>
+        </form>
+    </div>
+        <div>
+        <h4>Форма получения одной записи Hole</h4>
+        <form id="Hole_GET_ONE" action="API_URLHole/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Получить по ID "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма добавления Hole</h4>
+        <form id="Hole_POST" action="API_URLHole/">
+            <label>Name: <input type="text" name="Name" /></label>
+            <label>DrillBlockId: <input type="text" name="DrillBlockId" /></label>
+            <label>Depth: <input type="text" name="Depth" /></label>
+            <input type="submit" value="Добавить значение"/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма удаления Hole</h4>
+        <form id="Hole_DELETE" action="API_URLHole/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Удалить значение "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма Обновления Hole</h4>
+        <form id="Hole_PUT" action="API_URLHole/">
+            <label>Id:<input type ="text" name = "Id"></label>
+           <label>Name: <input type="text" name="Name" /></label>
+            <label>DrillBlockId: <input type="text" name="DrillBlockId" /></label>
+            <label>Depth: <input type="text" name="Depth" /></label>
+            <input type="submit" value="Обновить "/>
+        </form>
+    </div>
+    <pre id="HoleResults">
+    </pre>
+</div>
+<hr>
+<div>
+    <div>
+        <h4>Форма получения всех записей HolePoints</h4>
+        <form id="HolePoints_GET" action="API_URLHolePoints/">
+            <input type="submit" value="Получить все значения"/>
+        </form>
+    </div>
+        <div>
+        <h4>Форма получения одной записи HolePoints</h4>
+        <form id="HolePoints_GET_ONE" action="API_URLHolePoints/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Получить по ID "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма добавления HolePoints</h4>
+        <form id="HolePoints_POST" action="API_URLHolePoints/">
+            <label>X: <input type="text" name="X" /></label>
+            <label>Y: <input type="text" name="Y" /></label>
+            <label>Z: <input type="text" name="Z" /></label>
+            <label>HoleId: <input type="text" name="HoleId" /></label>
+            <input type="submit" value="Добавить значение"/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма удаления HolePoints</h4>
+        <form id="HolePoints_DELETE" action="API_URLHolePoints/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <input type="submit" value="Удалить значение "/>
+        </form>
+    </div>
+    <div>
+        <h4>Форма Обновления HolePoints</h4>
+        <form id="HolePoints_PUT" action="API_URLHolePoints/">
+            <label>Id:<input type ="text" name = "Id"></label>
+            <label>X: <input type="text" name="X" /></label>
+            <label>Y: <input type="text" name="Y" /></label>
+            <label>Z: <input type="text" name="Z" /></label>
+            <label>HoleId: <input type="text" name="HoleId" /></label>
+            <input type="submit" value="Обновить "/>
+        </form>
+    </div>
+    <pre id="HolePointsResults">
+    </pre>
+</div>
+</body>
+</html>
